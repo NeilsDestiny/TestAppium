@@ -26,7 +26,12 @@ class TestTencent:
         gender = '男'
         phonenum = '13645678912'
         self.driver.find_element_by_xpath('//*[@text="通讯录"]').click()
-        self.driver.find_element_by_xpath('//*[@text="添加成员"]').click()
+        # self.driver.find_element_by_xpath('//*[@text="添加成员"]').click()
+        #滑动查找添加成员
+        self.driver.find_element_by_android_uiautomator('new UiScrollable(new UiSelector().'
+                                                        'scrollable(true).instance(0)).'
+                                                        'scrollIntoView(new UiSelector().'
+                                                        'text("添加成员").instance(0));').click()
         self.driver.find_element_by_xpath('//*[@text="手动输入添加"]').click()
         self.driver.find_element_by_xpath( "//*[contains(@text,'姓名')]/../android.widget.EditText").send_keys(name)
         self.driver.find_element_by_xpath("//*[@text='男']").click()
@@ -35,6 +40,8 @@ class TestTencent:
         else:
             self.driver.find_element_by_xpath("//*[@text='男']").click()
         self.driver.find_element_by_id("com.tencent.wework:id/eq7").send_keys(phonenum)
+        #点击保存
         self.driver.find_element_by_id("com.tencent.wework:id/gur").click()
+
         ele = self.driver.find_element(MobileBy.XPATH, '//*[@class="android.widget.Toast"]').text
         assert "添加成功" == ele
